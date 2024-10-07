@@ -8,13 +8,47 @@
 	<script>
         // Überprüfen, ob der Benutzer angemeldet ist
         window.onload = function() {
-            const username = localStorage.getItem('username');
-			console.log('Geladener Benutzername:', username); 
-            if (!username) {
+            const token = localStorage.getItem('jwtToken');
+            if (!token) {
                 // Benutzer ist nicht angemeldet, zurück zur Anmeldeseite leiten
                 window.location.href = 'login.html'; // Ändere den Dateinamen entsprechend deiner Struktur
+                return;
             }
+
+            // Beispiel für eine API-Anfrage mit JWT-Token
+            fetch('http://localhost:8080/api/courses', {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            })
+            .then(response => {
+                if (response.status === 401) {
+                    // Token ist ungültig oder abgelaufen, zurück zur Anmeldeseite leiten
+                    window.location.href = 'login.html';
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data) {
+                    const courseList = document.getElementById('course-list');
+                    data.forEach(course => {
+                        const li = document.createElement('li');
+                        li.textContent = course.name;
+                        courseList.appendChild(li);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         };
+
+        // Funktion zum Abmelden
+        function logout() {
+            localStorage.removeItem('jwtToken');
+            window.location.href = 'login.html'; // Zurück zur Anmeldeseite leiten
+        }
     </script>
 </head>
 <body>
@@ -28,6 +62,5 @@
 	<div class="container">
 		<button onclick="logout()">Abmelden</button>
 	</div>
-    <script src="script.js"></script>
 </body>
 </html>
