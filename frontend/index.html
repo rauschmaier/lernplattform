@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plattformen und Kurse</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
 	<script>
         // Überprüfen, ob der Benutzer angemeldet ist
         window.onload = function() {
@@ -19,15 +19,17 @@
 </head>
 <body>
     <div class="container">
-        <h1>Lernplattform</h1>
+        <h1>Plattformen und Kurse</h1>
+        <div id="platforms">
+            <h2>Plattformen</h2>
+            <ul id="platform-list"></ul>
+        </div>
         <div id="courses">
             <h2>Kurse</h2>
             <ul id="course-list"></ul>
         </div>
     </div>
-	<div class="container">
-		<button onclick="logout()">Abmelden</button>
-	</div>
+	<button onclick="logout()">Abmelden</button>
     <script src="script.js"></script>
 </body>
 </html>
